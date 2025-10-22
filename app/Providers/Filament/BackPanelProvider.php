@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Providers\Filament;
+
+use Filament\Panel;
+use Filament\PanelProvider;
+use Filament\Pages\Dashboard;
+use Filament\Support\Colors\Color;
+use Filament\Widgets\AccountWidget;
+use App\Filament\Widgets\TestWidget;
+use App\Filament\Widgets\TopCreator;
+use Filament\Widgets\FilamentInfoWidget;
+use App\Filament\Widgets\TotalNomorSurat;
+use App\Filament\Widgets\TopCreatorWidget;
+use Filament\Http\Middleware\Authenticate;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Filament\Http\Middleware\AuthenticateSession;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+
+class BackPanelProvider extends PanelProvider
+{
+    public function panel(Panel $panel): Panel
+    {
+        return $panel
+            ->default()
+            ->id('back')
+            ->path('back')
+            ->login()
+                // ->view('auth.custom-login')
+            // ->spa()
+            ->colors([
+                'primary' => Color::Blue,
+            ])
+            ->favicon(asset('favicon-upi.png'))
+            ->brandName('Aplikasi Naskah Dinas Internal')
+            // ->description('Aplikasi Pengelolaan Nomor Surat')
+            ->globalSearch(false)
+            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
+            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
+            ->pages([
+                Dashboard::class,
+            ])
+            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
+            ->widgets([
+                TotalNomorSurat::class,
+                TopCreator::class,
+                // AccountWidget::class,
+                // FilamentInfoWidget::class,
+            ])
+            ->middleware([
+                EncryptCookies::class,
+                AddQueuedCookiesToResponse::class,
+                StartSession::class,
+                AuthenticateSession::class,
+                ShareErrorsFromSession::class,
+                VerifyCsrfToken::class,
+                SubstituteBindings::class,
+                DisableBladeIconComponents::class,
+                DispatchServingFilamentEvent::class,
+            ])
+            ->authMiddleware([
+                Authenticate::class,
+            ])
+            ->plugins([
+                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
+            ]);
+    }
+}
