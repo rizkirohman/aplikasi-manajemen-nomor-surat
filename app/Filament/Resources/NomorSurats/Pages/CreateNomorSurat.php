@@ -18,12 +18,12 @@ class CreateNomorSurat extends CreateRecord
 
     protected function getRedirectUrl(): string
     {
-        return $this->getResource()::getUrl('index');
+        return $this->getResource()::getUrl('create');
     }
 
     public function canCreateAnother(): bool
     {
-        return true;
+        return false;
     }
 
     protected function beforeCreate(): void
@@ -75,8 +75,8 @@ class CreateNomorSurat extends CreateRecord
         return [
             $this->getCreateFormAction()
                 ->label('Simpan'),
-            $this->getCreateAnotherFormAction()
-                ->label('Simpan & Buat Kembali'),
+            // $this->getCreateAnotherFormAction()
+            //     ->label('Simpan & Buat Kembali'),
             $this->getCancelFormAction()
                 ->label('Batal'),
         ];
