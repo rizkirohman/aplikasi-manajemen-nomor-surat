@@ -32,14 +32,12 @@ class BackPanelProvider extends PanelProvider
             ->id('back')
             ->path('back')
             ->login()
-                // ->view('auth.custom-login')
             // ->spa()
             ->colors([
                 'primary' => Color::Blue,
             ])
             ->favicon(asset('favicon-upi.png'))
             ->brandName('Aplikasi Naskah Dinas Internal')
-            // ->description('Aplikasi Pengelolaan Nomor Surat')
             ->globalSearch(false)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
